@@ -1,0 +1,54 @@
+		.data                      # indica para o montador a area de dado 
+
+theArray:		                   # rotulo para a area (variavel)	
+  		.space 160                 # reserva espaco de 160 bytes (40 posicoes de 4 bytes)
+  		
+quebra: 	.asciiz "\n"
+  		
+		.text                      # indica inicio do codigo
+		
+		main:                      # rotulo do programa principal
+  		addi  $t0, $0, 8           # faz n = 2
+  		addi  $t6, $0, 1	       # carrega 1 para $t6
+  		addi  $t7, $0, 4	       # carrega 4 para $t7
+  		sw    $t6, theArray($0)    # grava 1 na posicao Array[0]
+  		sw    $t6, theArray($t7)   # grava 1 na posicao Array[1]
+		loop:			           # inicio do DO-WHILE	
+  		addi  $t3, $t0, -8         # posicao n - 2 
+  		addi  $t4, $t0, -4         # posicao n - 1
+  		lw    $t1, theArray($t3)   # leitura de Array[n-2]
+  		lw    $t2, theArray($t4)   # leitura de Array[n-1]
+  		add   $t5, $t1, $t2        # realiza a soma Array[n-1] + Array[n-2]
+  		
+  		# imprime inteiro
+		add $a0, $zero, $t5 # Coloca no a0 o v0
+		addi $v0, $zero, 1 
+		syscall #  Chama o sistema operacional para rodar
+		
+		#imprime mensagem
+		addi $v0, $zero, 4 # registrador $v0 recebe, o 4 imprime string
+		la $a0, quebra # Coloca o endereco da variavel dentro do registrador
+		syscall # Chama o sistema operacional para rodar
+  		
+  		sw    $t5, theArray($t0)   # salva resultado em Array[n]
+  		addi  $t0, $t0, 4          # faz n++
+  		blt   $t0, 160, loop       # salta para o inicio do loop se $t0 < 160 
+  		jr    $ra		           # retorna da funcao
+
+#static void Main(string[] args)         
+#{             
+#   int[] theArray = new int[40];
+
+#   int n = 2;
+
+#   theArray[0] = 1;
+#   theArray[1] = 1;
+
+#   do
+#   {
+#     theArray[n] = theArray[n - 1] + theArray[n - 2];
+#     n++;
+#   } while (n < 40);
+#}
+		
+		

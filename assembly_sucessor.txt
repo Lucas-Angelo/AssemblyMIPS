@@ -1,0 +1,37 @@
+			.data # Daqui pra frente cadastra variaveis
+
+mensagem:	.asciiz "Digite um numero\n"
+		
+			.text # Daqui pra frente faz o codigo
+
+			# imprime mensagem
+			addi $v0, $zero, 4 # registrador $v0 recebe 4
+			la $a0, mensagem # Coloca o endereco da variavel dentro do registrador
+			syscall # Chama o sistema operacional para rodar
+
+			# le inteiro
+			addi $v0, $zero, 5 # Chama o registrador e coloca um valor nele
+			syscall #  Chama o sistema operacional para rodar
+			
+			# calcula sucessor
+			addi $v0, $v0, 1 # incrementa
+
+			# imprime inteiro
+			add $a0, $zero, $v0 # Coloca no a0 o v0
+			addi $v0, $zero, 1 
+			syscall #  Chama o sistema operacional para rodar
+                        
+                        jr $ra # finaliza
+	
+#static void Main(string[] args)         
+#{             
+#	int numero, sucessor;
+
+#	Console.WriteLine("Digite um numero");
+
+#	numero = int.Parse(Console.ReadLine());
+
+#	sucessor = num + 1;
+	
+#	Console.Write(sucessor);
+#}
